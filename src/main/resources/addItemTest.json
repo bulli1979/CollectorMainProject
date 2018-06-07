@@ -1,0 +1,59 @@
+{
+	"session": {
+		"new": false,
+		"sessionId": "amzn1.echo-api.session.me",
+		"attributes": {
+			
+		},
+		"user": {
+			"userId": "amzn1.ask.account.me"
+		},
+		"application": {
+			"applicationId": "amzn1.ask.skill.e0f37d3e-4c5d-4f3a-9f35-a478dcad8cb1"
+		}
+	},
+	"version": "1.0",
+	"request": {
+		"locale": "de-DE",
+		"timestamp": "2016-10-27T21:06:28Z",
+		"type": "IntentRequest",
+		"requestId": "amzn1.echo-api.request.ADDITEM",
+		"intent": {
+			"slots": [
+				{
+					"Title": {
+						"name": "Title",
+						"value": "Avengers 1"
+					}
+				},
+				{
+					"Type": {
+						"name": "Type",
+						"value": "Film"
+					}
+				}
+			],
+			"name": "ADDITEM"
+		}
+	},
+	"context": {
+		"AudioPlayer": {
+			"playerActivity": "IDLE"
+		},
+		"System": {
+			"device": {
+				"supportedInterfaces": {
+					"AudioPlayer": {
+						
+					}
+				}
+			},
+			"application": {
+				"applicationId": "amzn1.ask.skill.e0f37d3e-4c5d-4f3a-9f35-a478dcad8cb1"
+			},
+			"user": {
+				"userId": "amzn1.ask.account.me"
+			}
+		}
+	}
+}

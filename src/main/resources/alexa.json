@@ -1,0 +1,230 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "videothek",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": [
+                        "Stop Sammlung"
+                    ]
+                },
+                {
+                    "name": "ADDITEM",
+                    "slots": [
+                        {
+                            "name": "Title",
+                            "type": "filmList"
+                        },
+                        {
+                            "name": "Type",
+                            "type": "itemType"
+                        }
+                    ],
+                    "samples": [
+                        "füge den {Type} {Title} hinzu",
+                        "ich möchte den {Type} {Title} hinzufügen",
+                        "Füge den {Type} {Title} zu meiner Sammlung hinzu",
+                        "{Type} mit dem Titel {Title} zur Sammlung hinzufügen",
+                        "{Type} {Title} hinzufügen"
+                    ]
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "Hilfe Filmsammlung"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "Beende Sammlung"
+                    ]
+                },
+                {
+                    "name": "LISTITEMS",
+                    "slots": [
+                        {
+                            "name": "Type",
+                            "type": "itemType",
+                            "samples": [
+                                "Typ {Type}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "Was habe ich für {Type} in meiner Sammlung",
+                        "Was habe ich für {Type}",
+                        "zähle meine {Type} auf"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "itemType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "CD"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Buch"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Film",
+                                "synonyms": [
+                                    "Filme",
+                                    "Serie",
+                                    "Movie"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "filmList",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "Heidi"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Avengers 1",
+                                "synonyms": [
+                                    "Awengers eins",
+                                    "Avengers eins"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Avengers 2",
+                                "synonyms": [
+                                    "Awengers zwei",
+                                    "Avengers zwei"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Avengers 3",
+                                "synonyms": [
+                                    "Awengers drei"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Spiderman 1"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Spiderman 2"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Spiderman 3"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Spiderman Homecomming"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Dirty Dancing"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "LISTITEMS",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "Type",
+                            "type": "itemType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.880183692585.280876092987"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ADDITEM",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.1372479529945"
+                    },
+                    "slots": [
+                        {
+                            "name": "Title",
+                            "type": "filmList",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.536548485478.128123231269"
+                            }
+                        },
+                        {
+                            "name": "Type",
+                            "type": "itemType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ]
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.880183692585.280876092987",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Bitte angeben was gelistet werden soll"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent.1372479529945",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Bitte Titel angeben"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "{Title}"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.536548485478.128123231269",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Bitte Titel angeben"
+                    }
+                ]
+            }
+        ]
+    }
+}
