@@ -1,6 +1,7 @@
 package biz.wgc.aws;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.amazon.speech.json.SpeechletRequestEnvelope;
@@ -20,7 +21,6 @@ import com.amazon.speech.ui.PlainTextOutputSpeech;
 import biz.wgc.aws.data.CustomerItem;
 
 public class ItemCollector implements SpeechletV2 {
-
 	@Override
 	public void onSessionStarted(SpeechletRequestEnvelope<SessionStartedRequest> requestEnvelope) {
 
@@ -35,25 +35,39 @@ public class ItemCollector implements SpeechletV2 {
 
 	@Override
 	public SpeechletResponse onIntent(SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
+		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+		System.out.println("starte Intent Aufruf");
+		try {
 		Intent intent = requestEnvelope.getRequest().getIntent();
 		IntentType intentType = IntentType.valueOf(intent.getName());
 		Slot type = intent.getSlot("Type");
 		Slot title = intent.getSlot("Title");
-    	PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+		Slot name = intent.getSlot("Name");
     	
 	    switch(intentType) {
 		    case ADDITEM :
+		    	System.out.println("Füge ein Item hinzu");
 		    	if (type == null || title == null || type.getValue() == null || title.getValue() == null) {
 			        return generateDialogResponse(requestEnvelope);
 			    }
+		    	System.out.println("Typ: " + type.getValue());
+		    	System.out.println("Title: " + title.getValue());
 		    	DBSaveService.save(createItemFromRequest(title.getValue(),type.getValue()));
 		    	speech.setText("Dein " + type.getValue() + " " + title.getValue() + " wurde hinzugefügt");
 		    	break;
 		    case DELETEITEM:
 		    	DBDeleteService.deleteItem(null);
 		    	break;
-		    case UPDATEITEM:
-		    	DBSaveService.backItem(null);
+		    case LENDOUT:
+		    	System.out.println("verleihe ein Item");
+		    	if (type == null || title == null || name == null || type.getValue() == null || title.getValue() == null || name.getValue() == null) {
+			        return generateDialogResponse(requestEnvelope);
+			    }		    	
+		    	System.out.println("Typ: " + type.getValue());
+		    	System.out.println("Title: " + title.getValue());
+		    	System.out.println("Name: " + name.getValue());
+		    	DBSaveService.lendItem(generateItem(type.getValue(), title.getValue(), name.getValue()));
+		    	speech.setText("Dein " + type.getValue() + " " + title.getValue() + " wurde an " + name.getValue() + " verliehen");
 		    	break;
 		    case LISTITEMS:
 		    	List<CustomerItem> itemList = DBGetService.getItemsForType(type.getValue());
@@ -62,7 +76,13 @@ public class ItemCollector implements SpeechletV2 {
 			    speech.setText("Deine Filme " + b.toString());
 		    default:
 	    }
+		}catch(Exception e) {
+			System.out.println("Es ist ein Fehler aufgetreten");
+			System.out.println(e.getMessage());
+			speech.setText("Entschuldigung es ist ein Fehler aufgetreten");
+		}
 	    return SpeechletResponse.newTellResponse(speech);
+
 	}
 
 	private SpeechletResponse generateDialogResponse(SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
@@ -91,6 +111,17 @@ public class ItemCollector implements SpeechletV2 {
 	public void onSessionEnded(SpeechletRequestEnvelope<SessionEndedRequest> requestEnvelope) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	
+	private CustomerItem generateItem(String type, String title, String name) {
+		CustomerItem item = new CustomerItem();
+		item.setTitle(title);
+		item.setType(type);
+		item.setLendOutOn(new Date());
+		item.setLendOutTo(name);
+		
+		return item;
 	}
 
 }

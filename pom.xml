@@ -13,8 +13,6 @@
 	<modules>
 		<module>DBConnector</module>
 		<module>AlexaService</module>
+		<module>WhatWeAreDoing</module>
 	</modules>
-
-
-
 </project>

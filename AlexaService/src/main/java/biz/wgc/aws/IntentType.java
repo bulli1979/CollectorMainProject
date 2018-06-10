@@ -1,7 +1,7 @@
 package biz.wgc.aws;
 
 public enum IntentType {
-	ADDITEM,DELETEITEM,UPDATEITEM,LISTITEMS;
+	ADDITEM,DELETEITEM,LENDOUT,LISTITEMS;
 	
 	public IntentType findIntent(String intent) {
 		for(IntentType t : IntentType.values()) {
