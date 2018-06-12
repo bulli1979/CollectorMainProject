@@ -22,11 +22,12 @@
                         }
                     ],
                     "samples": [
-                        "füge den {Type} {Title} hinzu",
-                        "ich möchte den {Type} {Title} hinzufügen",
-                        "Füge den {Type} {Title} zu meiner Sammlung hinzu",
-                        "{Type} mit dem Titel {Title} zur Sammlung hinzufügen",
-                        "{Type} {Title} hinzufügen"
+                        "für ein neues {Type}",
+                        "und füge eine {Type} hinzu",
+                        "für eine neue {Type}",
+                        "für einen neuen {Type}",
+                        "und füge ein {Type} hinzu",
+                        "und füge einen {Type} hinzu"
                     ]
                 },
                 {
@@ -53,9 +54,79 @@
                         }
                     ],
                     "samples": [
+                        "und liste meine {Type} auf",
+                        "und zähle meine {Type} auf",
                         "Was habe ich für {Type} in meiner Sammlung",
                         "Was habe ich für {Type}",
                         "zähle meine {Type} auf"
+                    ]
+                },
+                {
+                    "name": "LENDOUT",
+                    "slots": [
+                        {
+                            "name": "Type",
+                            "type": "itemType"
+                        },
+                        {
+                            "name": "Title",
+                            "type": "filmList",
+                            "samples": [
+                                "{Title}"
+                            ]
+                        },
+                        {
+                            "name": "Name",
+                            "type": "AMAZON.DE_FIRST_NAME",
+                            "samples": [
+                                "{Name}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "Verleihe einen {Type}"
+                    ]
+                },
+                {
+                    "name": "BACKITEM",
+                    "slots": [
+                        {
+                            "name": "Type",
+                            "type": "itemType",
+                            "samples": [
+                                "eine {Type}",
+                                "ein {Type}",
+                                "einen {Type}"
+                            ]
+                        },
+                        {
+                            "name": "Title",
+                            "type": "filmList",
+                            "samples": [
+                                "{Title}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "und starte das Wunder",
+                        "und starte einen Rückgabevorgang",
+                        "und beginne Rückgabevorgang"
+                    ]
+                },
+                {
+                    "name": "WHATISLEND",
+                    "slots": [
+                        {
+                            "name": "Name",
+                            "type": "AMAZON.DE_FIRST_NAME",
+                            "samples": [
+                                "{Name}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "und sage mir was {Name} geliehen hat",
+                        "Was hat {Name} geliehen"
                     ]
                 }
             ],
@@ -145,6 +216,16 @@
                             }
                         }
                     ]
+                },
+                {
+                    "name": "AMAZON.DE_FIRST_NAME",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "Rinon"
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -190,6 +271,82 @@
                             "prompts": {}
                         }
                     ]
+                },
+                {
+                    "name": "LENDOUT",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.1496333014632"
+                    },
+                    "slots": [
+                        {
+                            "name": "Type",
+                            "type": "itemType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "Title",
+                            "type": "filmList",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1187091508031.601338646901"
+                            }
+                        },
+                        {
+                            "name": "Name",
+                            "type": "AMAZON.DE_FIRST_NAME",
+                            "confirmationRequired": true,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "confirmation": "Confirm.Slot.1187091508031.1442387097224",
+                                "elicitation": "Elicit.Slot.1187091508031.1442387097224"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "BACKITEM",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "Type",
+                            "type": "itemType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.355343313454.861407984118"
+                            }
+                        },
+                        {
+                            "name": "Title",
+                            "type": "filmList",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1169854863983.1477761276476"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "WHATISLEND",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "Name",
+                            "type": "AMAZON.DE_FIRST_NAME",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1238690119932.556096267414"
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -222,6 +379,69 @@
                     {
                         "type": "PlainText",
                         "value": "Bitte Titel angeben"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1187091508031.601338646901",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "was für ein {Type}"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1187091508031.1442387097224",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "An wen möchtest du es verborgen"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.1187091508031.1442387097224",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Möchtest du {Type} {Title} an {Name} verleihen"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent.1496333014632",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Möchtest du {Type} {Title} an {Name} verleihen"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1169854863983.1477761276476",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "was für einen {Type} willst du zurück geben"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.355343313454.861407984118",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Was wird zurückgeben ein Film eine CD oder ein Buch"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1238690119932.556096267414",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Bitte Namen angeben"
                     }
                 ]
             }

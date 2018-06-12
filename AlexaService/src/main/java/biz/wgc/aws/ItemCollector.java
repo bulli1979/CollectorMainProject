@@ -40,6 +40,10 @@ public class ItemCollector implements SpeechletV2 {
 		try {
 		Intent intent = requestEnvelope.getRequest().getIntent();
 		IntentType intentType = IntentType.valueOf(intent.getName());
+		if(intentType == null) {
+			System.out.println("canot find intend " + intent.getName());
+			return generateDialogResponse(requestEnvelope);
+		}
 		Slot type = intent.getSlot("Type");
 		Slot title = intent.getSlot("Title");
 		Slot name = intent.getSlot("Name");
@@ -69,8 +73,21 @@ public class ItemCollector implements SpeechletV2 {
 		    	DBSaveService.lendItem(generateItem(type.getValue(), title.getValue(), name.getValue()));
 		    	speech.setText("Dein " + type.getValue() + " " + title.getValue() + " wurde an " + name.getValue() + " verliehen");
 		    	break;
+		    case BACKITEM :
+		    	if (type == null || title == null || type.getValue() == null || title.getValue() == null) {
+			        return generateDialogResponse(requestEnvelope);
+			    }
+		    	DBSaveService.lendItem(generateItem(type.getValue(), title.getValue(), null));
+		    	speech.setText("Dein " + type.getValue() + " " + title.getValue() + " wurde zurückgegeben");
+		    	break;
+		    case WHATISLEND :
+		    	if (name == null || name.getValue() == null) {
+		    		 return generateDialogResponse(requestEnvelope);
+		    	}
+		    	speech.setText(generateLendString(name.getValue()));
+		    	break;
 		    case LISTITEMS:
-		    	List<CustomerItem> itemList = DBGetService.getItemsForType(type.getValue());
+		    	List<CustomerItem> itemList = DBGetService.getAllItems(type.getValue());
 		    	StringBuilder b = new StringBuilder();
 		    	itemList.forEach(item ->{b.append(item.getTitle()+", ");});
 			    speech.setText("Deine Filme " + b.toString());
@@ -78,13 +95,34 @@ public class ItemCollector implements SpeechletV2 {
 	    }
 		}catch(Exception e) {
 			System.out.println("Es ist ein Fehler aufgetreten");
-			System.out.println(e.getMessage());
+			System.out.println(e);
+			e.printStackTrace();
 			speech.setText("Entschuldigung es ist ein Fehler aufgetreten");
 		}
 	    return SpeechletResponse.newTellResponse(speech);
 
 	}
 
+	private String generateLendString(String name) {
+		List<CustomerItem> itemList = DBGetService.getAllItems(null);
+		StringBuilder lend = new StringBuilder(name + " hat");
+		StringBuilder items = new StringBuilder("");
+		itemList.forEach(ci ->{
+			if(ci.getLendOutTo() != null && ci.getLendOutTo().toLowerCase().equals(name.toLowerCase())) {
+				if(items.length()>0) {
+					items.append(", ");
+				}
+				items.append(ci.getType() + " " + ci.getTitle());
+			}
+		});
+		if(items.length()>0) {
+			lend.append(" folgendes ausgeliehen " + items.toString());
+		}else {
+			lend.append(" nichts ausgeliehen");
+		}
+		return lend.toString();
+	}
+	
 	private SpeechletResponse generateDialogResponse(SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
 		DialogIntent dialogIntent = new DialogIntent(requestEnvelope.getRequest().getIntent());
 		DelegateDirective dd = new DelegateDirective();
@@ -118,7 +156,7 @@ public class ItemCollector implements SpeechletV2 {
 		CustomerItem item = new CustomerItem();
 		item.setTitle(title);
 		item.setType(type);
-		item.setLendOutOn(new Date());
+		item.setLendOutOn(name!=null? new Date():null);
 		item.setLendOutTo(name);
 		
 		return item;

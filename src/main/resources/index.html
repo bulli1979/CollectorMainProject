@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+	
+<script type="text/javascript">
+function formatDate(data){
+	var myDate = new Date(data);
+	var date =myDate.getDate() + "." + (myDate.getMonth()+1) + "." + myDate.getFullYear();
+	return  date;
+}
+	$(function(){
+		$("#itemCollector").DataTable({
+			ajax: {
+				url: "https://igjq88ehvl.execute-api.eu-west-1.amazonaws.com/dev/WebAPI",
+				dataSrc: ''
+			},
+			columns : [ 
+				{data : "title"},
+				{data : "type"}, 
+				{data : "lendOutTo", render: function ( data, type, row ) {
+			        return data == null? "-" : data;
+			    }}, 
+				{data : "lendOutOn", render: function ( data, type, row ) {
+			        return data == null? "-" : formatDate(data);
+				}} 
+				]
+		});
+
+	});
+	
+</script>
+	
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div class="container">
+		<h2>Item Collector</h2>
+		<table id="itemCollector" class="display">
+			<thead>
+				<tr>
+					<th>Titel</th>
+					<th>Typ</th>
+					<th>Verliehen an</th>
+					<th>Verliehen am</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+
+</body>
+</html>

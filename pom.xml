@@ -14,5 +14,6 @@
 		<module>DBConnector</module>
 		<module>AlexaService</module>
 		<module>WhatWeAreDoing</module>
+		<module>WebAPI</module>
 	</modules>
 </project>

@@ -33,6 +33,9 @@ public abstract class DBConnector {
 	}
 	
 	protected static String dateToString(Date d) {
+		if(d == null) {
+			return null;
+		}
 		return formater.format(d);
 	}
 }

@@ -10,7 +10,7 @@ import biz.wgc.aws.data.CustomerItem;
 
 public class DBGetService extends DBConnector {
 
-	public static List<CustomerItem> getItemsForType(String type) {
+	public static List<CustomerItem> getAllItems(String type) {
 		List<CustomerItem> itemList = new ArrayList<CustomerItem>();
 		initDynamoDbClient();
 		DynamoDBMapper mapper = new DynamoDBMapper(client);
