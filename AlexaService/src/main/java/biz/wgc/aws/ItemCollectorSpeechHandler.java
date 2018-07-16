@@ -1,10 +1,7 @@
 package biz.wgc.aws;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import com.amazon.speech.speechlet.lambda.SpeechletRequestStreamHandler;
-
 public class ItemCollectorSpeechHandler extends SpeechletRequestStreamHandler{
 	private static final Set<String> supportedApplicationIds;
 	static {
